@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <title>Team India T20 World Cup Celebration</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8ZQT3XHMW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+
+        gtag("config", "G-Y8ZQT3XHMW");
+    </script>
+    <meta property="og:title" content="T20 World Cup 2024 Celebration">
+    <meta property="og:description" content="Celebrate India win twc 2024 against South Africa with Skytup">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.skytup.com">
+    <meta property="og:image" content="https://project.skytup.com/india/t20worldcup.jpg">
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(145deg, #FF9933, #FFFFFF, #138808) fixed;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0;
+            color: #000080;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .celebrate-button {
+            background: #ff5722;
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 50px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .celebrate-button:hover {
+            background: #e64a19;
+            transform: scale(1.05);
+        }
+
+        .celebration-animation {
+            display: none;
+            margin-top: 30px;
+            font-size: 2em;
+            animation: fireworks 2s infinite;
+        }
+
+        @keyframes fireworks {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .share-buttons {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .share-button {
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .share-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .facebook {
+            background: #3b5998;
+        }
+
+        .facebook:hover {
+            background: #2d4373;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        .twitter:hover {
+            background: #0c85d0;
+        }
+
+        .whatsapp {
+            background: #25d366;
+        }
+
+        .whatsapp:hover {
+            background: #128c7e;
+        }
+
+        .instagram {
+            background: #e1306c;
+        }
+
+        .instagram:hover {
+            background: #c13584;
+        }
+
+        .copy-link {
+            background: #009688;
+        }
+
+        .copy-link:hover {
+            background: #00796b;
+        }
+
+        .extra-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .extra-links a {
+            background: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .extra-links a:hover {
+            background: #f57c00;
+            transform: translateY(-3px);
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .celebrate-button {
+                font-size: 1em;
+            }
+
+            .share-button,
+            .extra-links a {
+                font-size: 0.9em;
+            }
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            margin: 0px;
+            width: 100%;
+            gap: 10px;
+            bottom: 0;
+            padding: 10px;
+            left: 0px;
+            background: #00000071;
+            font-size: 1.2em;
+        }
+
+        footer a {
+            border-radius: 50%;
+            border: 1px solid #fff;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            background: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Congratulations Team India!</h1>
+        <img src="https://project.skytup.com/india/status-1.png" style="width: 100%; height: auto; margin-top: 20px;" />
+        <p>India won the T20 World Cup 2024 by 7 runs against South Africa!</p>
+        <button class="celebrate-button" onclick="startCelebration()">Click to Celebrate</button>
+        <div class="celebration-animation" id="celebration">🎉🏆🎉</div>
+        <h2 style="text-align: center;">Share this page with all Cricket fans on social media</h2>
+        <div class="share-buttons">
+            <button class="share-button facebook" onclick="shareOnFacebook()"><i class="fab fa-facebook-f"></i>
+                Facebook</button>
+            <button class="share-button twitter" onclick="shareOnTwitter()"><i class="fab fa-twitter"></i>
+                Twitter</button>
+            <button class="share-button whatsapp" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i>
+                WhatsApp</button>
+            <button class="share-button instagram" onclick="shareOnInstagram()"><i class="fab fa-instagram"></i>
+                Instagram</button>
+            <button class="share-button copy-link" onclick="copyLink()"><i class="fas fa-link"></i> Copy Link</button>
+        </div>
+        <div class="extra-links">
+            <a href="https://www.skytup.com/" target="_blank"
+                style="background: darkblue;"><i class="fas fa-external-link-alt"></i> Visit Skytup</a>
+            <a href="https://www.hotstar.com/in/sports/cricket/tournaments/icc-mens-t20-world-cup-2024/1260164072/invincible-ind-ace-sa-lift-2nd-title/1540029928/sports-match-highlights/watch"
+                target="_blank"><i class="fas fa-video"></i> Watch Highlights</a>
+        </div>
+        <img src="https://project.skytup.com/india/status.png" style="width: 100%; height: auto; margin-top: 20px;" />
+
+    </div>
+    <div class="fireworks" id="fireworks"></div>
+    <!---footer>
+        <a href="https://www.facebook.com/profile.php?id=100030124935456" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.youtube.com/channel/UC6vrqOqpd8_92ldIhlXpw1g" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://x.com/skythecoder" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/pro_akash22/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://akash.skytup.com" target="_blank"><i class="fab fa-chrome"></i></a>
+    </footer--->
+    <script>
+        const aud = new Audio('https://aac.saavncdn.com/620/1a8f9f6db4adf6aa9d7dc8ab58eecbe8_160.mp4');
+        function startCelebration() {
+            document.getElementById('celebration').style.display = 'block';
+            createFireworks();
+            aud.play();
+            heart();
+            setInterval(()=>{
+            heart()},5000)
+        }
+
+        function heart(){
+            createHearts(1, 'red');
+            createHearts(1, 'white');
+            createHearts(1, 'lime');
+            }
+
+        function shareOnFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+
+        function shareOnTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent("Congratulations 🔥🔥🔥 Team India on winning the T20 World Cup! Forward this link to your friends and family to celebrate with them! ");
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function shareOnWhatsApp() {
+            const text = encodeURIComponent("Congratulations 🔥🔥🔥 Team India on winning the T20 World Cup! Forward this link to your friends and family to celebrate with them! " + window.location.href);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function shareOnInstagram() {
+            alert("Instagram sharing is not directly supported. You can copy the link and share it manually on Instagram.");
+        }
+
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Link copied to clipboard');
+            });
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.style.position = 'absolute';
+            firework.style.width = '5px';
+            firework.style.height = '5px';
+            firework.style.borderRadius = '50%';
+            firework.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+            firework.style.left = `${Math.random() * 100}%`;
+            firework.style.top = `${Math.random() * 100}%`;
+            firework.style.animation = `explode 1s ease-out forwards`;
+            document.getElementById('fireworks').appendChild(firework);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+
+        function createFireworks() {
+            setInterval(createFirework, 200);
+        }
+    </script>
+    <script src="https://www.skytup.com/skytup/source/activities.js"></script>
+</body>
+
+</html>

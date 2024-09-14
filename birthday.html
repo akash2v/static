@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="https://www.skytup.com/skytup/source/animate.css">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #15e986;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-front {
+            background-color: #fff;
+        }
+
+        .card-back {
+            background-color: #f8e8e8;
+            transform: rotateY(180deg);
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #ff4757;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #ff6b6b;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 250px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card" id="birthdayCard">
+        <div class="card-inner">
+            <div class="card-front">
+                <h2>Click to Open</h2>
+                <button class="button" onclick="flipCard()">Click Me</button>
+            </div>
+            <div class="card-back">
+                <h1>Happy Birthday,</h1>
+                <h2 id="nameDisplay" class="shake"></h2>
+                <p>Wishing you a fantastic day filled with joy and laughter!</p>
+            </div>
+        </div>
+    </div>
+    <footer
+        style="position:fixed;bottom:0px; left:0px;right:0px;width:100%;padding:10px;background:#000;display:flex; justify-content:center;align-items:center;">
+        <a style="text-decoration:none;color:#fff;cursor:pointer;" target="_blank" href="https://akash.skytup.com">Click
+            here to know more about developer Akash </a>
+    </footer>
+
+
+    <script>
+        let audio = new Audio('https://aac.saavncdn.com/814/5e29dcccd183c093a66f7bc917204a7a_160.mp4');
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        const name = getParameterByName('name') || 'Friend';
+        document.getElementById('nameDisplay').textContent = name;
+        document.title = name;
+
+        function flipCard() {
+            document.getElementById('birthdayCard').classList.add('flipped');
+            audio.play();
+            createFireworks();
+        }
+        setInterval(() => {
+            createFireworks();
+            createHearts(10, 'red');
+        }, 3000);
+        function createFireworks() {
+            const fireworksContainer = document.body;
+            for (let i = 0; i < 50; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight + 'px';
+                fireworksContainer.appendChild(firework);
+
+                anime({
+                    targets: firework,
+                    translateX: anime.random(-500, 500),
+                    translateY: anime.random(-500, 500),
+                    scale: [
+                        { value: 1, duration: 200 },
+                        { value: 0, duration: 900 }
+                    ],
+                    easing: 'easeOutCubic',
+                    duration: 1000,
+                    complete: function () {
+                        firework.remove();
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="https://www.skytup.com/skytup/source/activities.js"></script>
+</body>
+
+</html>

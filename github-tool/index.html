@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Advanced User Search</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0d1117; /* Dark GitHub Theme */
+            color: #c9d1d9;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        .search-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        input {
+            padding: 10px;
+            width: 45%;
+            border: none;
+            border-radius: 5px;
+            background: #161b22;
+            color: #fff;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #238636;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #2ea043;
+        }
+        .results {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .profile {
+            background: #161b22;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            width: 220px;
+            transition: 0.3s;
+            border: 1px solid #30363d;
+            position: relative;
+        }
+        .profile:hover {
+            transform: scale(1.05);
+            border-color: #58a6ff;
+        }
+        .profile img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px solid #58a6ff;
+        }
+        .profile a {
+            display: block;
+            margin-top: 10px;
+            color: #58a6ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .profile a:hover {
+            text-decoration: underline;
+        }
+        .profile p {
+            margin: 5px 0;
+        }
+        .loading {
+            margin: 20px;
+            font-size: 16px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>GitHub Advanced User Search</h2>
+        <div class="search-box">
+            <input type="text" id="nameInput" placeholder="Enter name (e.g., Shivani)">
+            <input type="text" id="locationInput" placeholder="Enter location (e.g., India)">
+            <input type="number" id="followersInput" placeholder="Min Followers">
+            <input type="number" id="reposInput" placeholder="Min Repos">
+            <button onclick="searchGitHub(true)">Search</button>
+        </div>
+        <div class="results" id="results"></div>
+        <p class="loading" id="loading">Loading more users...</p>
+    </div>
+
+    <script>
+        let page = 1;
+        let lastQuery = "";
+        let isLoading = false;
+        let totalResults = 0;
+        let fetchedProfiles = 0;
+
+        async function searchGitHub(newSearch = false) {
+            if (isLoading) return;
+            isLoading = true;
+
+            if (newSearch) {
+                page = 1;
+                fetchedProfiles = 0;
+                document.getElementById('results').innerHTML = "";
+            }
+
+            document.getElementById('loading').style.display = "block";
+
+            let name = document.getElementById('nameInput').value.trim();
+            let location = document.getElementById('locationInput').value.trim();
+            let minFollowers = document.getElementById('followersInput').value;
+            let minRepos = document.getElementById('reposInput').value;
+
+            let query = name ? `${name}+in:name` : "";
+            if (location) query += `+location:${location}`;
+            if (minFollowers) query += `+followers:>=${minFollowers}`;
+            if (minRepos) query += `+repos:>=${minRepos}`;
+
+            if (query === lastQuery && !newSearch) {
+                isLoading = false;
+                return;
+            }
+            lastQuery = query;
+
+            let url = `https://api.github.com/search/users?q=${query}&page=${page}&per_page=100`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                totalResults = data.total_count;
+
+                if (data.items.length === 0 && page === 1) {
+                    document.getElementById('results').innerHTML = "<p>No profiles found.</p>";
+                    document.getElementById('loading').style.display = "none";
+                    return;
+                }
+
+                let userDetailsPromises = data.items.map(user => fetchUserDetails(user));
+
+                let userDetails = await Promise.all(userDetailsPromises);
+                userDetails.forEach(user => {
+                    if (!user) return;
+                    let profileHTML = `
+                        <div class="profile">
+                            <img src="${user.avatar_url}" alt="Avatar">
+                            <p>${user.login}</p>
+                            <p>Followers: ${user.followers}</p>
+                            <p>Following: ${user.following}</p>
+                            <a href="${user.html_url}" target="_blank">View Profile</a>
+                        </div>
+                    `;
+                    document.getElementById('results').innerHTML += profileHTML;
+                    fetchedProfiles++;
+                });
+
+                page++;
+
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('results').innerHTML = "<p>Error fetching data. Try again.</p>";
+            }
+
+            document.getElementById('loading').style.display = "none";
+            isLoading = false;
+        }
+
+        async function fetchUserDetails(user) {
+            try {
+                let res = await fetch(user.url);
+                let data = await res.json();
+                return {
+                    login: user.login,
+                    avatar_url: user.avatar_url,
+                    html_url: user.html_url,
+                    followers: data.followers ?? "Hidden",
+                    following: data.following ?? "Hidden"
+                };
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+                return null;
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 500)) {
+                if (fetchedProfiles < totalResults) {
+                    searchGitHub(false);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

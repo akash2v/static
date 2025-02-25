@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skytup QR Scanner</title>
+    
+    <!-- We're using jsQR library instead which doesn't rely on worker imports -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    
+    <link rel="stylesheet" href="./scan.css">
+</head>
+<body>
+    <header>
+        <h1>Skytup QR Scanner</h1>
+    </header>
+    
+    <div class="container">
+        <div class="scanner-container">
+            <video id="video"></video>
+            <canvas id="canvas"></canvas>
+            <div class="overlay">
+                <div class="scanning-animation"></div>
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <button id="startButton" class="pulse">Start Scanner</button>
+            <button id="stopButton" disabled>Stop Scanner</button>
+            <button id="switchCameraButton" disabled>Switch Camera</button>
+        </div>
+        
+        <div class="error-container" id="errorContainer">
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+            <div class="separator">OR</div>
+            <p>Try scanning from an image instead</p>
+        </div>
+
+        <div class="upload-container" id="uploadContainer">
+            <div class="separator">OR</div>
+            <p>Scan QR code from image</p>
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+            <label for="fileInput" class="file-label">Select Image</label>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <h3>Scan Result</h3>
+            <p class="result-text" id="resultText"></p>
+            <div class="button-container">
+                <button id="copyButton" class="copy-button">Copy to Clipboard</button>
+                <button id="openLinkButton" class="copy-button success">Open Link</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 <a href="https://www.skytup.com" target="_blank">Skytup.com</a> - All Rights Reserved</p>
+    </footer>
+
+    <script src="./scanner.js">
+
+    </script>
+</body>
+</html>

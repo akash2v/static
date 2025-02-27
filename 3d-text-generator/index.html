@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3d Text Writer using Three Js | Akash </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            background: none;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .input-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .input-container input, .input-container select {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 200px;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .input-container input:focus, .input-container select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .input-container button:hover {
+            background-color: rgba(76, 175, 80, 1);
+        }
+
+        .footer {
+            position: fixed;
+            text-align:center;
+            bottom: 0;
+            padding:5px;
+            left:0;
+            width:100%;
+            color: #fff;
+            background:darkred;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        @media (max-width: 480px) {
+            .input-container input, .input-container select {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="textDisplay"></h1>
+    <div class="input-container">
+        <input type="text" id="textInput" placeholder="Enter text...">
+        <input type="color" id="textColorInput" value="#00ff00">
+        <input type="color" id="bgColorInput" value="#f0f0f0">
+        <select id="textSizeInput">
+            <option value="3">Small</option>
+            <option value="5" selected>Medium</option>
+            <option value="7">Large</option>
+        </select>
+        <button id="changeTextBtn">Apply Changes</button>
+        <button id="rotateTextBtn">Toggle Rotation</button>
+    </div>
+    <div class="footer">
+        &copy; 2024 <a href="https://www.skytup.com" target="_blank">Skytup</a>. This page is made by Akash. 
+       Feel free to copy source code but give us a credit 👍.
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/geometries/TextGeometry.js"></script>
+    <script>
+        // Get the text from the URL parameter "text"
+        const urlParams = new URLSearchParams(window.location.search);
+        let text = urlParams.get('text') || 'Skytup';
+        document.getElementById('textDisplay').textContent = text;
+
+        // Create the scene
+        var scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf0f0f0);
+
+        // Set up the camera
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 10;
+
+        // Create the renderer
+        var renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add lights to the scene
+        var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        var pointLight = new THREE.PointLight(0xffffff, 0.8);
+        pointLight.position.set(100, 100, 100);
+        scene.add(pointLight);
+
+        // Load the font and create the text geometry
+        var loader = new THREE.FontLoader();
+        var textMesh;
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+            createTextGeometry(text, font);
+        });
+
+        function createTextGeometry(text, font) {
+            const textColor = document.getElementById('textColorInput').value;
+            const textSize = parseFloat(document.getElementById('textSizeInput').value);
+
+            var geometry = new THREE.TextGeometry(text, {
+                font: font,
+                size: textSize,
+                height: 0.5,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
+            });
+
+            var material = new THREE.MeshStandardMaterial({ color: textColor, metalness: 0.7, roughness: 0.2 });
+            textMesh = new THREE.Mesh(geometry, material);
+
+            // Center the text
+            geometry.computeBoundingBox();
+            var centerOffset = -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+            textMesh.position.x = centerOffset;
+            textMesh.position.y = 0;
+            textMesh.position.z = 0;
+
+            scene.add(textMesh);
+        }
+
+        // Track mouse movement
+        var mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', function (event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }, false);
+
+        // Add event listener for the change text button
+        document.getElementById('changeTextBtn').addEventListener('click', function () {
+            const newText = document.getElementById('textInput').value || 'Skytup';
+            document.getElementById('textDisplay').textContent = newText;
+
+            // Remove the existing text mesh from the scene
+            scene.remove(textMesh);
+
+            // Update background color
+            const bgColor = document.getElementById('bgColorInput').value;
+            scene.background = new THREE.Color(bgColor);
+
+            // Load the font and create the new text geometry
+            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+                createTextGeometry(newText, font);
+            });
+        });
+
+        // Add event listener for the rotate text button
+        let isRotating = false;
+        document.getElementById('rotateTextBtn').addEventListener('click', function () {
+            isRotating = !isRotating;
+        });
+
+        // Add a rendering loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update camera position based on mouse movement
+            camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Rotate the text mesh if isRotating is true
+            if (isRotating && textMesh) {
+                textMesh.rotation.y += 0.01;
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'918b6fa9e84ee280',t:'MTc0MDY5MzUwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>

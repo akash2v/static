@@ -1,0 +1,35 @@
+cscript "%ProgramFiles%\Microsoft Office\Office16\ospp.vbs" /dstatus
+If first command not work try below command
+👉cscript "%ProgramFiles(x86)%\Microsoft Office\Office16\ospp.vbs" /dstatus
+
+---------------
+👉cscript "%ProgramFiles%\Microsoft Office\Office16\ospp.vbs" /unpkey:VMFTK
+If get any error try below command
+👉cscript "%ProgramFiles(x86)%\Microsoft Office\Office16\ospp.vbs" /unpkey:VMFTK
+
+
+---------------
+👉cd /d %ProgramFiles%\Microsoft Office\Office16
+If get any error try below command
+👉cd /d %ProgramFiles(x86)%\Microsoft Office\Office16
+
+--------------
+👉for /f %x in ('dir /b ..\root\Licenses16\proplusvl_kms*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%x"
+
+---------------
+👉cscript ospp.vbs /inpkey:XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99
+
+
+-----------------
+👉cscript ospp.vbs /unpkey:BTDRB >nul
+👉cscript ospp.vbs /unpkey:KHGM9 >nul
+👉cscript ospp.vbs /unpkey:CPQVG >nul
+
+
+----------------
+👉cscript ospp.vbs /sethst:mskms.roosho.link
+👉cscript ospp.vbs /setprt:1688
+
+
+----------------
+👉cscript ospp.vbs /act

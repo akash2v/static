@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Code Plate with Copy and Stats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        /* Styling for the code plate */
+        .sky-code-plate {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            overflow-x: auto;
+        }
+
+        .code-plate {
+            position: relative;
+            background-color: #131212;
+            color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+        }
+
+        .copy-button {
+            border:1px solid;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        /* Styling for the copy-to-clipboard button */
+        /* .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        } */
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for the header showing stats */
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with stats -->
+    <div class="sky-code-plate">
+
+        <div class="code-header">
+            <div>
+                Lines: <span id="line-count">0</span>,
+                Words: <span id="word-count">0</span>,
+                Characters: <span id="char-count">0</span>
+            </div>
+            <button class="copy-button" id="copy-button"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+
+        <!-- Code plate with the copy-to-clipboard button -->
+        <div class="code-plate" id="code-plate" contenteditable="true"></div>
+    </div>
+    <script>
+        const codePlate = document.getElementById("code-plate");
+        const copyButton = document.getElementById("copy-button");
+        const lineCount = document.getElementById("line-count");
+        const wordCount = document.getElementById("word-count");
+        const charCount = document.getElementById("char-count");
+
+        // Function to update the stats (lines, words, characters)
+        function updateStats() {
+            const content = codePlate.innerText;
+            const lines = content.split(/\r?\n/).length;
+            const words = content.trim().split(/\s+/).length;
+            const characters = content.length;
+
+            lineCount.textContent = lines;
+            wordCount.textContent = words;
+            charCount.textContent = characters;
+        }
+
+        // Copy-to-clipboard functionality
+        copyButton.addEventListener("click", () => {
+            const range = document.createRange();
+            const selection = window.getSelection();
+
+            range.selectNodeContents(codePlate);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            try {
+                document.execCommand("copy");
+                alert("Code copied to clipboard!");
+            } catch (err) {
+                alert("Failed to copy code.");
+            }
+        });
+
+        // Update stats when the content changes
+        codePlate.addEventListener("input", updateStats);
+
+        // Initial update
+        updateStats();
+    </script>
+
+</body>
+
+</html>

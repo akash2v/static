@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Plate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .code-plate {
+      position: relative;
+      background-color: #343541;
+      color: #f8f8f2;
+      padding: 0;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      font-family: 'Source Code Pro', monospace;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #282a36;
+      padding: 0.5rem 1rem;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    .code-header .file-name {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .code-plate pre {
+      color:#fff;
+      margin: 0;
+      white-space: pre;
+      padding: 1rem;
+	font-size:large;
+	overflow-x:auto;
+    }
+.code-plate pre:focus{
+    outline:0;
+    box-shadow:0 0 10px green;
+}
+    .copy-button {
+      background-color: transparent;
+      border: none;
+      color: #a9a9b3;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem;
+      transition: color 0.3s;
+    }
+
+    .copy-button:hover {
+      color: #f8f8f2;
+    }
+
+    @media (max-width: 768px) {
+      .code-plate {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="code-plate">
+    <div class="code-header">
+      <span class="file-name">index.html</span>
+      <div class="copy-button">
+        <button class="copy-button">
+          <i class="far fa-edit"></i>
+        </button>
+        <button class="copy-button" id="copy-button" onclick="copyCode()">
+          <i class="far fa-copy"></i>
+        </button>
+      </div>
+    </div>
+    <pre id="code-content" contenteditable="true" onpaste="handlePaste(event)">
+const greeting = 'Hello, World!';
+console.log(greeting);</pre>
+  </div>
+
+  <script>
+    function copyCode() {
+      const codeElement = document.getElementById('code-content');
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = codeElement.textContent;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+      alert('Code copied to clipboard!');
+    }
+
+    function handlePaste(e) {
+      e.preventDefault();
+      const plainText = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, plainText);
+    }
+  </script>
+</body>
+
+</html>

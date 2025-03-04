@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Plate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .code-plate {
+      position: relative;
+      background-color: #343541;
+      color: #f8f8f2;
+      padding: 0;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      font-family: 'Source Code Pro', monospace;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #282a36;
+      padding: 0.5rem 1rem;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    .code-header .file-name {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .code-plate pre {
+      color: #fff;
+      margin: 0;
+      white-space: pre;
+      padding: 1rem;
+      font-size: large;
+      overflow-x: auto;
+    }
+
+    .code-plate pre:focus {
+      outline: 0;
+      box-shadow: 0 0 10px green;
+    }
+
+    .copy-button {
+      background-color: transparent;
+      border: none;
+      color: #a9a9b3;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem;
+      transition: color 0.3s;
+    }
+
+    .copy-button:hover {
+      color: #f8f8f2;
+    }
+
+    @media (max-width: 768px) {
+      .code-plate {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <sky-plate name="index.html" editable="true">const greeting = 'Hello, World!';
+console.log(greeting);
+</sky-plate>
+
+  <script>
+    const skyPlates = document.querySelectorAll('sky-plate');
+
+    skyPlates.forEach(skyPlate => {
+      const header = skyPlate.getAttribute('name');
+      const content = skyPlate.textContent;
+      const editable = skyPlate.getAttribute('editable') === 'true';
+
+      const codePlate = document.createElement('div');
+      codePlate.classList.add('code-plate');
+
+      const codeHeader = document.createElement('div');
+      codeHeader.classList.add('code-header');
+
+      const fileNameElement = document.createElement('span');
+      fileNameElement.classList.add('file-name');
+      fileNameElement.textContent = header;
+      codeHeader.appendChild(fileNameElement);
+
+      const buttonsContainer = document.createElement('div');
+      buttonsContainer.classList.add('copy-button');
+
+      const editButton = document.createElement('button');
+      editButton.classList.add('copy-button');
+      editButton.innerHTML = '<i class="far fa-edit"></i>';
+      buttonsContainer.appendChild(editButton);
+
+      const copyButton = document.createElement('button');
+      copyButton.classList.add('copy-button');
+      copyButton.id = 'copy-button';
+      copyButton.innerHTML = '<i class="far fa-copy"></i>';
+      copyButton.addEventListener('click', copyCode);
+      buttonsContainer.appendChild(copyButton);
+
+      codeHeader.appendChild(buttonsContainer);
+      codePlate.appendChild(codeHeader);
+
+      const codeContent = document.createElement('pre');
+      codeContent.id = 'code-content';
+      if (editable) {
+        codeContent.contentEditable = true;
+        codeContent.addEventListener('paste', handlePaste);
+      }
+      codeContent.textContent = content;
+      codePlate.appendChild(codeContent);
+
+      skyPlate.parentNode.replaceChild(codePlate, skyPlate);
+    });
+
+    function copyCode() {
+      const codeElement = document.getElementById('code-content');
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = codeElement.textContent;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+      alert('Code copied to clipboard!');
+    }
+
+    function handlePaste(e) {
+      e.preventDefault();
+      const plainText = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, plainText);
+    }
+  </script>
+</body>
+</html>

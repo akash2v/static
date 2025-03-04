@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skytup - Login/Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 90%;
+            max-width: 450px;
+        }
+
+        .header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .header h2 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+            transition: color 0.3s;
+        }
+
+        .password-container .toggle-password:hover {
+            color: #3498db;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+
+        .social-btn:hover {
+            opacity: 0.8;
+        }
+
+        .google { background-color: #db4437; }
+        .facebook { background-color: #3b5998; }
+        .github { background-color: #333; }
+
+        .privacy-policy {
+            margin: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .privacy-policy input {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Skytup</h2>
+            <p>Login or create an account</p>
+        </div>
+        <div class="tab-container">
+            <div class="tab active" onclick="showTab('login')">Login</div>
+            <div class="tab" onclick="showTab('signup')">Sign Up</div>
+        </div>
+        <div class="form-container">
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('loginPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <form id="signupForm" style="display: none;" onsubmit="return handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupMobile">Mobile Number</label>
+                    <input type="tel" id="signupMobile" placeholder="Enter your mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="signupPassword" placeholder="Choose a password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('signupPassword')"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword')"></i>
+                    </div>
+                </div>
+                <div class="privacy-policy">
+                    <input type="checkbox" id="privacyPolicy" required>
+                    <label for="privacyPolicy">I accept the Privacy Policy</label>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            <div class="social-login">
+                <button class="social-btn google"><i class="fab fa-google"></i> Google</button>
+                <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                <button class="social-btn github"><i class="fab fa-github"></i> GitHub</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const tabs = document.querySelectorAll('.tab');
+
+            if (tabName === 'login') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function validateForm(formType) {
+            if (formType === 'login') {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                if (!email || !password) {
+                    alert('Please fill in all fields');
+                    return false;
+                }
+            } else {
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const mobile = document.getElementById('signupMobile').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                const privacyPolicy = document.getElementById('privacyPolicy').checked;
+
+                if (!name || !email || !mobile || !password || !confirmPassword) {
+                    alert('Please fill in all fields');
+                    return false;
+                }
+
+                if (!privacyPolicy) {
+                    alert('Please accept the Privacy Policy');
+                    return false;
+                }
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return false;
+                }
+
+                if (password.length < 8) {
+                    alert('Password must be at least 8 characters long');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            if (validateForm('login')) {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                // Make HTTP request to login.php
+                fetch('login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Login successful!');
+                        // Redirect to dashboard or home page
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            if (validateForm('signup')) {
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const mobile = document.getElementById('signupMobile').value;
+                const password = document.getElementById('signupPassword').value;
+
+                // Make HTTP request to registration.php
+                fetch('registration.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, mobile, password }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Registration successful!');
+                        // Redirect to login page or dashboard
+                    } else {
+                        alert('Registration failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Search Box</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .search-container {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            border-radius: 30px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* animation: swing 2s infinite alternate; */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* .search-container:before,
+        .search-container:after {
+            content: "";
+            position: absolute;
+            top: -50px;
+            width: 2px;
+            height: 50px;
+            background-color: #333;
+        } */
+
+        .search-container:before {
+            left: 20px;
+        }
+
+        .search-container:after {
+            right: 20px;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            width: 300px;
+            border-radius: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .search-toggle {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .search-toggle:hover {
+            background-color: #555;
+        }
+
+        @keyframes swing {
+            0% {
+                transform: translateX(-50%) rotate(5deg);
+            }
+
+            100% {
+                transform: translateX(-50%) rotate(-5deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search...">
+        <button class="search-toggle"><i class="fas fa-search"></i></button>
+    </div>
+
+    <script>
+        const searchInput = document.querySelector('.search-input');
+        const searchToggle = document.querySelector('.search-toggle');
+
+        searchToggle.addEventListener('click', () => {
+            if (searchInput.style.width === '300px') {
+                searchInput.style.width = '0';
+                searchInput.style.padding = '0';
+            } else {
+                searchInput.style.width = '300px';
+                searchInput.style.padding = '8px 12px';
+            }
+        });
+    </script>
+</body>
+
+</html>

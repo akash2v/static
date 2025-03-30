@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduR..ClassGoing</title>
+    <link rel="icon" href="edureach.jpg" type="image/x-icon">
+
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Class is Going on Focus on your study</h1>
+        <br>
+        
+        <div class="upload-section">
+            <label for="video-upload" class="upload-label">
+                <span class="upload-icon">📁</span>
+                <span>Choose a video file</span>
+                <input type="file" id="video-upload" accept="video/*" class="file-input">
+            </label>
+            
+            <br>
+            <br>
+        </div>
+
+        <div class="video-preview">
+            <video id="video-player" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <br>
+            <br>
+            <button id="upload-button" class="upload-button">Upload</button>
+        </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
